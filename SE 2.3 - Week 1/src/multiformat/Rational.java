@@ -20,7 +20,10 @@ package multiformat;
 
 /**
  * Class representing a rational ('breuk').
- * @author J.Baljé: Added comments
+ * 
+ * @author J.Baljé
+ * @author Tobias Schlichter
+ * @version 1.1
  */
 public class Rational {
 	static final double PRECISION=10;
@@ -30,9 +33,9 @@ public class Rational {
 	double denominator = 1.0; // noemer
 
 	/**
-	 * Create a new Rational
-	 * @param num Numerator 
-	 * @param den Denominator 
+	 * Create a new Rational.
+	 * @param num Numerator.
+	 * @param den Denominator.
 	 */
 	public Rational(double num, double den) {
 		numerator = num;
@@ -40,9 +43,16 @@ public class Rational {
 		simplify();
 	}
 
+	/**
+	 * Create a new Rational.
+	 */
 	public Rational() {
 	}
-
+	
+	/**
+	 * Create a new Rational.
+	 * @param number A number that will be the Rational.
+	 */
 	public Rational(double number) {
 		numerator = number;
 		denominator = 1.0;
@@ -72,7 +82,7 @@ public class Rational {
 	}
 
 	/**
-	 * Simplify the rational. 125/10 becomes 25/2.
+	 * Simplify the Rational. 125/10 becomes 25/2.
 	 *  Seen also unittest TestRational.java
 	 */
 	public void simplify() {
@@ -95,7 +105,7 @@ public class Rational {
 	}
 
 	/**
-	 * Add two rationals
+	 * Add two Rationals
 	 * @param other Another Rational to add to this.
 	 * @return A new Rational representing the sum.
 	 */
@@ -111,7 +121,12 @@ public class Rational {
 										denominator * other.numerator
 								,denominator * other.denominator);
 	}
-
+	
+	/**
+	 * Subtract 2 Rationals.
+	 * @param other Another Rational to subtract from this.
+	 * @return A new Rational representing the subtraction.
+	 */
 	public Rational minus(Rational other) {
 		if (denominator == other.denominator)
 			return new Rational(numerator - other.numerator, denominator);
@@ -120,36 +135,78 @@ public class Rational {
 									denominator * other.numerator
 								,denominator * other.denominator);
 	}
-
+	
+	/**
+	 * Multiply 2 Rationals.
+	 * @param other Another Rational to multiply with this.
+	 * @return A new Rational representing the multiplication.
+	 */
 	public Rational mul(Rational other) {
 		return new Rational(
 			numerator * other.numerator,
 			denominator * other.denominator);
 	}
 
+	/**
+	 * Devide 2 Rationals.
+	 * @param other Another Rational to devide this.
+	 * @return A new Rational representing the dividation.
+	 */
 	public Rational div(Rational other) {
-		return new Rational(
-			numerator * other.denominator,
-			denominator * other.numerator);
+		Rational rat;
+		try{
+			if(other.numerator == 0) {
+				throw new ArithmeticException("Cannot divide by zero");
+			}
+			rat =  new Rational(
+					numerator * other.denominator,
+					denominator * other.numerator);
+		}
+		catch(ArithmeticException ex) {
+			System.out.println("An integer cannot be divided by zero");
+			rat = new Rational();
+		}
+		
+		return rat;
 	}
-
+	
+	/**
+	 * Creates a copy of a Rational.
+	 * @param other Another Rational to copy.
+	 */
 	public void copyOf(Rational other) {
 		this.numerator = other.numerator;
 		this.denominator = other.denominator;
 	}
 	
-	// Added getters and setters for unittesting purposes.
+	/**
+	 * Returns the numerator.
+	 * @return Numerator.
+	 */
 	public double getNumerator(){
 		return numerator;
 	}
 	
+	/**
+	 * Returns the denominator.
+	 * @return Denominator.
+	 */
 	public double getDenominator() {
 		return denominator;
 	}
+	
+	/**
+	 * Sets numerator.
+	 * @param num numerator.
+	 */
 	public void setNumerator(double num){
 		numerator = num;
 	}
 	
+	/**
+	 * Set denominator.
+	 * @param den denominator.
+	 */
 	public void setDenominator(double den) {
 		denominator = den;
 	}
