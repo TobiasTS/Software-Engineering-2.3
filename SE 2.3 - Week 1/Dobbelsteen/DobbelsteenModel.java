@@ -8,7 +8,16 @@ public class DobbelsteenModel
 {
 	private int waarde;
 	private ArrayList<ActionListener> actionListenerList = new ArrayList<ActionListener>();
-
+	
+	//Onderstaande tellers houden bij hoevaak er (een bepaalde waarde) is gegooid
+	public int teller = 0;
+	public int tellerEen = 0;
+	public int tellerTwee = 0;
+	public int tellerDrie = 0;
+	public int tellerVier = 0;
+	public int tellerVijf = 0;
+	public int tellerZes = 0;
+	
 	public DobbelsteenModel()
 	{
 		waarde= (int)(Math.random()*6+1);
@@ -38,6 +47,30 @@ public class DobbelsteenModel
 	public void gooi(){
 	    waarde= (int)(Math.random()*6+1);
 	    processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+	}
+	
+	public void verhoogWaarden(int waarde){
+		this.teller++;
+		switch(waarde){
+		case 1:
+			this.tellerEen++;
+			break;
+		case 2:
+			this.tellerTwee++;
+			break;
+		case 3:
+			this.tellerDrie++;
+			break;
+		case 4:
+			this.tellerVier++;
+			break;
+		case 5:
+			this.tellerVijf++;
+			break;
+		case 6:
+			this.tellerZes++;
+			break;
+		}
 	}
 	
 	public void addActionListener( ActionListener l){

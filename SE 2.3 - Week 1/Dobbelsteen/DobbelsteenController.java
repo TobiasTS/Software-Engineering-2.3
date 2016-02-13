@@ -23,7 +23,7 @@ public class DobbelsteenController extends JPanel implements ActionListener
     {
         if (e.getSource() == hoger)
         {
-            dob.verhoog();
+        	dob.verhoog();
         }  
         if (e.getSource() == lager)
         {
