@@ -127,10 +127,17 @@ public class Rational {
 			denominator * other.denominator);
 	}
 
-	public Rational div(Rational other) {
-		return new Rational(
-			numerator * other.denominator,
-			denominator * other.numerator);
+	public Rational div(Rational other) throws FormatException {		
+		if (other.numerator != 0)
+		{
+			return  new Rational(
+					numerator * other.denominator,
+					denominator * other.numerator);			
+		}
+		else
+		{
+			throw new FormatException("Kan niet delen door 0");
+		}		
 	}
 
 	public void copyOf(Rational other) {
