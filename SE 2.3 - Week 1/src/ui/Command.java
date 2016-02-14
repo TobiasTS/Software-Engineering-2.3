@@ -55,17 +55,26 @@ public class Command {
       else if(command.equals("dec")) calc.setBase(new DecimalBase());
       else if(command.equals("bin")) calc.setBase(new BinaryBase());
       else if(command.equals("hex")) calc.setBase(new HexBase());
+      else if(command.equals("oct")) calc.setBase(new OctalBase());
       else if(command.equals("rat")) calc.setFormat(new RationalFormat());
       else if(command.equals("fixed")) calc.setFormat(new FixedPointFormat());
       else if(command.equals("float")) calc.setFormat(new FloatingPointFormat());
       else if(command.equals("del")) calc.delete();
       else if(command.indexOf("op") >= 0) {
-        try{
-        	calc.addOperand(command.substring(2).trim());
-        }catch(FormatException e){
-          System.out.println("Wrong operand: " + e.getMessage());
-        }
-      }else if(command.indexOf("read")>=0){
+    	command = command.substring(2).trim();     	
+    	try {
+    		CheckUserInput(command);
+    	} catch(NumberBaseException e) {
+    		System.out.println(e);
+    	}
+        try {
+        	calc.addOperand(command);
+        
+        } catch(FormatException e) {
+        		System.out.println("Wrong operand: " + e.getMessage());
+        }      
+      
+      } else if(command.indexOf("read")>=0){
         try{
           BufferedReader file = new  BufferedReader(
                           new FileReader( command.substring(4).trim() ) );
@@ -108,6 +117,20 @@ public class Command {
     System.out.println("  exit         (terminate execution)");
     System.out.println();
   }
+  
+  public void CheckUserInput(String command) throws NumberBaseException {
+	String Userinput = command;    
+  	Userinput = Userinput.replaceAll("-.","");
+  	char[] digits = Userinput.toCharArray();    	    	
+  	for (char waarde: digits) {
+  		int p = calc.getBase().getBaseDigits().indexOf(waarde);
+  		if (p < 0) {
+  			throw new NumberBaseException("Het getal " + waarde + " bestaat niet in het "
+  		    + calc.getBase().getName() + " talstelsel!");
+  		}    		
+  	}
+	  
+  }  
 
   public static void main(String[] args) {
     Command command = new Command();

@@ -22,12 +22,12 @@ public class RationalFormat extends Format {
 
   public String getName() { return "rat"; }
 
-  String toString(Rational number, Base base) {
+  public String toString(Rational number, Base base) {
     return base.toString(number.numerator) +
             "/" + base.toString(number.denominator);
   }
 
-  Rational parse(String number, Base base) throws FormatException {
+  public Rational parse(String number, Base base) throws FormatException {
     int index = number.indexOf('/');
     if(index >= 0)
       return new Rational(base.parse(number.substring(0, index).trim()),
