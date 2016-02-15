@@ -19,6 +19,7 @@
 package multiformat;
 
 /**
+ * Opdracht 22
  * Class representing a rational ('breuk').
  * 
  * @author J.Baljé
@@ -148,6 +149,7 @@ public class Rational {
 	}
 
 	/**
+	 * Opdracht 23
 	 * Devide 2 Rationals.
 	 * @param other Another Rational to devide this.
 	 * @return A new Rational representing the dividation.
@@ -209,5 +211,9 @@ public class Rational {
 	 */
 	public void setDenominator(double den) {
 		denominator = den;
+	}
+	
+	public String getValue() {
+		return numerator * denominator + "";
 	}
 }

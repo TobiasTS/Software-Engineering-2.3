@@ -31,8 +31,16 @@ public class Calculator {
   private Base base = new DecimalBase();
 
   public void addOperand(String newOperand) throws FormatException {
-	  operand_1 = operand_0;
-      operand_0 = format.parse(newOperand, base);
+	  try{
+		  // Opdracht 26 CheckUserInput is called
+		  CheckUserInput(newOperand);
+		  
+		  operand_1 = operand_0;
+	      operand_0 = format.parse(newOperand, base);
+	  }
+	  catch(NumberBaseException e) {
+		  System.out.println(e);
+	  }
   }
 
   public void add(){
@@ -48,13 +56,8 @@ public class Calculator {
     operand_1 = new Rational();
   }
   public void divide() {
-	  try {
-		  operand_0 = operand_1.div(operand_0);
-		  operand_1 = new Rational();
-	  } catch (FormatException ex)
-	  {
-		  System.out.println(ex);
-	  }
+	  operand_0 = operand_1.div(operand_0);
+	  operand_1 = new Rational();
   }
   public void delete() {
     operand_0 = operand_1;
@@ -80,4 +83,25 @@ public class Calculator {
   public Format getFormat(){
     return format;
   }
+  
+  /**
+   * Method to check if numbers of a String fit in the current numeral system.
+   * 
+   * @param rawUserInput The String that needs to be checked.
+   * @throws NumberBaseException Is thrown when String contains numbers from another numeral system.
+   */
+  public void CheckUserInput(String rawUserInput) throws NumberBaseException {
+	  String userInput = rawUserInput;    
+	  userInput = userInput.replaceAll("\\.","");
+  	  userInput = userInput.replaceAll("\\-","");
+  	  
+  	  char[] digits = userInput.toCharArray();    	    	
+	  for (char waarde: digits) {
+		  int p = base.getBaseDigits().indexOf(waarde);
+		  if (p < 0) {
+			  throw new NumberBaseException("Het getal " + waarde + " bestaat niet in het " + base.getName() + " talstelsel!");
+		  }    		
+	  }
+  }  
+
 }

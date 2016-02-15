@@ -62,14 +62,8 @@ public class Command {
       else if(command.equals("del")) calc.delete();
       else if(command.indexOf("op") >= 0) {
     	command = command.substring(2).trim();     	
-    	try {
-    		CheckUserInput(command);
-    	} catch(NumberBaseException e) {
-    		System.out.println(e);
-    	}
         try {
         	calc.addOperand(command);
-        
         } catch(FormatException e) {
         		System.out.println("Wrong operand: " + e.getMessage());
         }      
@@ -118,20 +112,6 @@ public class Command {
     System.out.println();
   }
   
-  public void CheckUserInput(String command) throws NumberBaseException {
-	String Userinput = command;    
-  	Userinput = Userinput.replaceAll("-.","");
-  	char[] digits = Userinput.toCharArray();    	    	
-  	for (char waarde: digits) {
-  		int p = calc.getBase().getBaseDigits().indexOf(waarde);
-  		if (p < 0) {
-  			throw new NumberBaseException("Het getal " + waarde + " bestaat niet in het "
-  		    + calc.getBase().getName() + " talstelsel!");
-  		}    		
-  	}
-	  
-  }  
-
   public static void main(String[] args) {
     Command command = new Command();
     while(command.nextCommand());
