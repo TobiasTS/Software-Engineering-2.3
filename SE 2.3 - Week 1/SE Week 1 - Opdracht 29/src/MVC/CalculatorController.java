@@ -28,6 +28,13 @@ public class CalculatorController extends JPanel implements ActionListener {
 	public JButton number7 = new JButton("7");
 	public JButton number8 = new JButton("8");
     public JButton number9 = new JButton("9");
+    public JButton numberA = new JButton("A");
+    public JButton numberB = new JButton("B");
+    public JButton numberC = new JButton("C");
+    public JButton numberD = new JButton("D");
+    public JButton numberE = new JButton("E");
+    public JButton numberF = new JButton("F");
+    
     
     public JButton dot = new JButton(".");
     
@@ -48,9 +55,12 @@ public class CalculatorController extends JPanel implements ActionListener {
      * @param calcModel The CalculatorModel where this object is the controller for.
      */
     public CalculatorController(CalculatorModel calcModel) {
-		setLayout(new GridLayout(7, 3));
+		setLayout(new GridLayout(6, 3));
 
     	this.calcModel = calcModel;
+    	
+    	this.add(number0);
+    	number0.addActionListener(this);
     	
     	this.add(number1);
     	number1.addActionListener(this);
@@ -60,6 +70,9 @@ public class CalculatorController extends JPanel implements ActionListener {
     	
     	this.add(number3);
     	number3.addActionListener(this);
+    	
+    	this.add(actionAdd);
+    	actionAdd.addActionListener(this);
     	
     	this.add(number4);
     	number4.addActionListener(this);
@@ -73,30 +86,38 @@ public class CalculatorController extends JPanel implements ActionListener {
     	this.add(number7);
     	number7.addActionListener(this);
     	
+
+    	this.add(actionSubtract);
+    	actionSubtract.addActionListener(this);
+    	
     	this.add(number8);
     	number8.addActionListener(this);
     	
     	this.add(number9);
     	number9.addActionListener(this);
     	
-    	this.add(dot);
-    	dot.addActionListener(this);
+    	this.add(numberA);
+    	numberA.addActionListener(this);
     	
-    	this.add(number0);
-    	number0.addActionListener(this);
-    	
-    	this.add(actionCalculate);
-    	actionCalculate.addActionListener(this);
-    	
-    	this.add(actionAdd);
-    	actionAdd.addActionListener(this);
-    	
-    	this.add(actionSubtract);
-    	actionSubtract.addActionListener(this);
+    	this.add(numberB);
+    	numberB.addActionListener(this);
     	
     	this.add(actionMultiply);
     	actionMultiply.addActionListener(this);
     	
+    	this.add(numberC);
+    	numberC.addActionListener(this);
+    	
+    	this.add(numberD);
+    	numberD.addActionListener(this);
+    	
+    	this.add(numberE);
+    	numberE.addActionListener(this);
+    	
+    	this.add(numberF);
+    	numberF.addActionListener(this);
+    	
+
     	this.add(actionDivide);
     	actionDivide.addActionListener(this);
     	
@@ -111,6 +132,14 @@ public class CalculatorController extends JPanel implements ActionListener {
     	
     	this.add(baseHex);
     	baseHex.addActionListener(this);
+    	
+    	this.add(dot);
+    	dot.addActionListener(this);
+    	
+    	this.add(actionCalculate);
+    	actionCalculate.addActionListener(this);
+    	
+    	
     	
     }
 
@@ -145,6 +174,24 @@ public class CalculatorController extends JPanel implements ActionListener {
 		}
 		if(e.getSource() == number9) {
 			calcModel.writeValue("9");
+		}
+		if(e.getSource() == numberA) {
+			calcModel.writeValue("A");
+		}
+		if(e.getSource() == numberB) {
+			calcModel.writeValue("B");
+		}
+		if(e.getSource() == numberC) {
+			calcModel.writeValue("C");
+		}
+		if(e.getSource() == numberD) {
+			calcModel.writeValue("D");
+		}
+		if(e.getSource() == numberE) {
+			calcModel.writeValue("E");
+		}
+		if(e.getSource() == numberF) {
+			calcModel.writeValue("F");
 		}
 		if(e.getSource() == dot) {
 			calcModel.writeValue(".");
