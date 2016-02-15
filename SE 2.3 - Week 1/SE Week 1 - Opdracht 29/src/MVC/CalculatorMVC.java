@@ -11,7 +11,7 @@ public class CalculatorMVC extends JApplet {
 	private CalculatorPreviousCalculationsView calculationsView;
 	
 	public void init() {
-		this.setSize(400, 200);
+		this.setSize(600, 300);
 		model = new CalculatorModel();
 		
 		textView = new CalculatorTextView(model);

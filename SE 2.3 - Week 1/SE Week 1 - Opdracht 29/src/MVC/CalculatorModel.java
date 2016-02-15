@@ -33,6 +33,7 @@ import multiformat.HexBase;
 import multiformat.NumberBaseException;
 import multiformat.OctalBase;
 import multiformat.Rational;
+import multiformat.RationalFormat;
 
 /**
  * The multiformat calculator
@@ -61,11 +62,14 @@ public class CalculatorModel {
   
   // Opdracht 29: Stack for calculation.
   private Stack<String> calculationStack = new Stack<String>();
-  private int operandsOnStackCounter = 0;
   private String tempOperand = "";
+  private int readyToCalculate = 0;
+
+  private boolean newLine = true;
+  
+  private boolean errorLine = false;
   
   public CalculatorModel() {
-	  updateCalculationLine();
   }
   
   public void addOperand(String newOperand) throws FormatException {
@@ -75,9 +79,11 @@ public class CalculatorModel {
 		  
 		  operand_1 = operand_0;
 	      operand_0 = format.parse(newOperand, base);
-		  updateCalculationLine();	      
+		  //updateCalculationLine();	      
 	  }
 	  catch(NumberBaseException e) {
+		  errorLine = true;
+		  System.out.println("error!");
 		  System.out.println(e);
 	  }
   }
@@ -151,32 +157,17 @@ public class CalculatorModel {
   	 * Then processes the event.
   	 * @param value String thet needs to be added.
   	 */
-  	public void writeValue(String value) {
+  	public void writeValue2(String value) {
   		if(writingOperand1) {
   			tempOperand1 = tempOperand1 + value;
   		}
   		else {
   			tempOperand2 = tempOperand2 + value;
   		}
-  		updateCalculationLine();
+  		//updateCalculationLine();
   		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
   	}
   	
-  	public void writeValue2(String value) {
-  		tempOperand = tempOperand + value;
-  	}
-  	
-  	public void addOperator(String value) {
-  		if(operandsOnStackCounter > 1) {
-  			try {
-				addOperand(calculationStack.pop());
-				addOperand(tempOperand);
-				
-			} catch (FormatException e) {
-				e.printStackTrace();
-			}
-  		}
-  	}
   	
   	/**
   	 * Opdracht 27:
@@ -200,7 +191,7 @@ public class CalculatorModel {
   			setBase(new HexBase());
   			break;
   		}
-  		updateCalculationLine();
+  		updateCalculationLine("");
   		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
   	}
   	
@@ -212,68 +203,134 @@ public class CalculatorModel {
   	 * @param operator Operator that needs to be the current one.
   	 */
   	public void sendOperator (String operator) {
-  		switch(operator) {
-  		case "+":
-  			flushOperand1();
-  			currentOperator = "+";
-  			break;
-  		case "-":
-  			flushOperand1();
-  			currentOperator = "-";
-  			break;
-  		case "*":
-  			flushOperand1();
-  			currentOperator = "*";
-  			break;
-  		case "/":
-  			flushOperand1();
-  			currentOperator = "/";
-  			break;
-  		case "=":
-  			if(!tempOperand1.equals("") && !tempOperand2.equals("")) {  			
-	  			// Opdracht 28: Creates the current operation line.
-	  			String currentOperation = calculationLine + " = ";
-	  			
-	  			try {
-					addOperand(tempOperand2);
-				} catch (FormatException e) {
-					e.printStackTrace();
-				}
-	  			switch(currentOperator) {
-	  	  		case "+":
-	  	  			add();
-	  	  			break;
-	  	  		case "-":
-	  	  			subtract();
-	  	  			break;
-	  	  		case "*":
-	  	  			multiply();
-	  	  			break;
-	  	  		case "/":
-	  	  			divide();
-	  	  			break;
-	  	  		}
-	  		    // Opdracht 28: Finishes the current operation with the solution then saves the previous calculation to the ArrayList.
-	  			currentOperation = currentOperation + secondOperand();
-	  			previousCalculations.add(0, currentOperation);
-	  			
-	  			currentOperator = "";
-	  			writingOperand1 = true;
-	  			tempOperand1 = "";
-	  			tempOperand2 = "";
-  			}
-  		}
-		updateCalculationLine();
+  		if(!tempOperand.equals("")) {
+  			switch(operator) {
+  	  		case "+":
+  	  			flushOperand(operator);
+  	  			currentOperator = "+";
+  	  	  		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+  	  			break;
+  	  		case "-":
+  	  			flushOperand(operator);
+  	  			currentOperator = "-";
+  	  	  		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+  	  			break;
+  	  		case "*":
+  	  			flushOperand(operator);
+  	  			currentOperator = "*";
+  	  	  		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+  	  			break;
+  	  		case "/":
+  	  			flushOperand(operator);
+  	  			currentOperator = "/";
+  	  	  		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+  	  			break;
+  	  		case "=":
+  	  			readyToCalculate++;
+  				if(readyToCalculate > 1) {
+  					flushOperand(operator);
+  					calculate();
+  	  	  			
+  	  	  			if(!errorLine) {
+  	  	  	  			updateCalculationLine(secondOperand() + "");
+  	  	  			}
+	  	  	  		errorLine = false;
+
+	  	  	  		previousCalculations.add(0, calculationLine);
+
+  	  	  	  		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
+  	  	  	  		calculationLine = "";
+  	  	  	  		readyToCalculate = 1;
+  	  	  	  		newLine = true;
+  				}
+  				readyToCalculate--;
+  				
+  	  			
+  	  			break;
+  	  		}
+  		}  		
+  	}
+  	
+  	public void writeValue(String value) {
+  		tempOperand = tempOperand + value;
+  		updateCalculationLine(value);
   		processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
   	}
   	
-  	private void flushOperand1() {
-  		writingOperand1 = false;
-			try {
-			addOperand(tempOperand1);
-		} catch (FormatException e) {
-			e.printStackTrace();
-		}
+  	private void flushOperand(String operator) {
+  		readyToCalculate++;
+		calculationStack.push(tempOperand);
+		calculationStack.push(operator);
+		
+		updateCalculationLine(" " + operator + " ");
+		
+		tempOperand = "";
+  	}
+  	
+  	private void calculate() {
+  		boolean started = false;
+  		while(!calculationStack.isEmpty()) {
+  			if(!started) {
+  				calculationStack.pop();
+  	  			String tempString = calculationStack.pop();
+  	  			String tempOperand = calculationStack.pop();
+
+  	  	  		try {
+  					addOperand(calculationStack.pop());
+  					addOperand(tempString);
+  					if(errorLine) {
+  						setCalculationLine("Contains characters from another numeral system");
+  					}
+  					else {
+  						switch(tempOperand) {
+  	  					case "+": 
+  	  						add();
+  	  						break;
+  	  					case "-": 
+  	  						subtract();
+  	  						break;
+  	  					case "*": 
+  	  						multiply();
+  	  						break;
+  	  					case "/": 
+  	  						divide();
+  	  						break;
+  	  					}
+  	  					started = true;
+  					}
+  					
+  				} catch (FormatException e) {
+  					e.printStackTrace();
+  				}
+  			}
+  			else {
+  				String tempOperand = calculationStack.pop();
+  				String tempString = calculationStack.pop();
+  	  			
+  	  			
+  				try {
+					addOperand(tempString);
+					
+					switch(tempOperand) {
+  					case "+": 
+  						add();
+  						break;
+  					case "-": 
+  						subtract();
+  						break;
+  					case "*": 
+  						multiply();
+  						break;
+  					case "/": 
+  						divide();
+  						break;
+  					}
+				} catch (FormatException e) {
+					e.printStackTrace();
+				}
+  			}
+  			
+  		}
   	}
   	
   	/**
@@ -300,8 +357,19 @@ public class CalculatorModel {
   	 * 
   	 * Method that updates the calculation line with newest values.
   	 */
-  	private void updateCalculationLine() {
-  		calculationLine = "base: " + base.getName() + "      " + tempOperand1 + " " + currentOperator + " " + tempOperand2 + " " ;
+  	private void updateCalculationLine(String value) {
+  		if(newLine) {
+  			calculationLine = "base: " + base.getName() + "      " + value;
+  			newLine = false;
+  		}
+  		else {
+  			calculationLine = calculationLine + value;
+  		}
+  	}
+  	
+  	private void setCalculationLine(String value) {
+  		calculationLine = value;
+	  	processEvent( new ActionEvent( this, ActionEvent.ACTION_PERFORMED, null));
   	}
 
   	/**
