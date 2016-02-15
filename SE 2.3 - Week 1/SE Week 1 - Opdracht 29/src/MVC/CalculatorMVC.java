@@ -3,7 +3,7 @@ package MVC;
 import java.awt.BorderLayout;
 
 import javax.swing.JApplet;
-
+//slechte javadoc!
 public class CalculatorMVC extends JApplet {
 	private CalculatorModel model;
 	private CalculatorController controller;
