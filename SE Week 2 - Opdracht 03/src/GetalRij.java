@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
+import java.util.*;
 
 
 public class GetalRij {
@@ -32,7 +34,7 @@ public class GetalRij {
 		boolean zitErIn = false;
 		int i = 0;
 		while(i < getallen.length){
-			if(i == getallen[i]){
+			if(zoekWaarde == getallen[i]){
 				System.out.println("Number " + zoekWaarde + " is in! (A)");
 				zitErIn = true;
 			}
@@ -44,7 +46,7 @@ public class GetalRij {
 	public boolean zitErinB( int zoekWaarde ){
 		int i = 0;
 		while(i < getallen.length){
-			if(i == getallen[i]){
+			if(zoekWaarde == getallen[i]){
 				System.out.println("Number " + zoekWaarde + " is in! (B)");
 				return true;
 			}
@@ -54,11 +56,38 @@ public class GetalRij {
 	}
 
 	public boolean zitErinC( int zoekWaarde ){
-		return false;
+		int[] clone = getallen.clone();
+		Arrays.sort(clone);
+		int i = 0;
+		while(i < clone.length){
+			if(zoekWaarde == clone[i]){
+				System.out.println("Number " + zoekWaarde + " is in! (C)");
+				return true;
+			}
+			i++;
+		}
+		return false;		
 	}
 
 	public boolean zitErinD( int zoekWaarde ){
-		return false;
+		int[] clone = getallen.clone();
+		Arrays.sort(clone);
+		int low = 0;
+		int high = clone.length - 1;
+		
+		while(high >= low){
+			int mid = (low + high)/2;
+			if(zoekWaarde < clone[mid]){
+				high = mid - 1;
+			}else if(zoekWaarde == clone[mid]){
+				System.out.println("Number " + zoekWaarde + " is in! (D)");
+				return true;
+			}else{
+				low = mid+ 1;
+			}
+		}
+		
+		return false;	
 	}
 	
 	public void sorteer(){
