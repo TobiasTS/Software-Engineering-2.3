@@ -19,16 +19,12 @@ public class Solution extends Stack<Candidate>
 	private int[] row    = { 0, 1, 1, 1, 2, 2, 2, 3 };
 	private int[] column = { 2, 0, 1, 2, 1, 2, 3, 2 };
 	
-        //
-	// array with adjacent card positions lower than the card that is placed
-        //                        0   1   2       3    4       5    6   7
-        //int [] [] adjacent  = { {}, {}, {1}, {0,2}, {2},  {3,4}, {5},{5}  };
-        // 
+   
         // array with all adjacent card positions
-        //                         0    1        2        3      4          5     6   7
-        //int [] [] adjacent  = { {3}, {2}, {1,3,4}, {0,2,5}, {2,5},  {3,4,6,7}, {5},{5}  };   
+        //                         0    1    2        3      4          5     6     7
+        int [] [] adjacent  = { {3}, {2}, {1,3,4}, {0,2,5}, {2,5},  {3,4,6,7}, {5},{5}  };   
         //
-        // array with positions to check for bordering
+        // array with positions to check for bordering horizontally
 	//
 	//  indices cards that must be checked.
 	//  e.g. when the 5th card is placed the cards 3&4 can be checked 
@@ -59,7 +55,7 @@ public class Solution extends Stack<Candidate>
 	 * next free position.
 	 */
 	public boolean fits(Candidate candidate){ 
-		//TODO
+		
 	    return true;
     }
 
