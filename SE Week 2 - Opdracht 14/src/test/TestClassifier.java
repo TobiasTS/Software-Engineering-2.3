@@ -59,7 +59,7 @@ public class TestClassifier extends TestCase {
 
 		Feature[] features = new Feature[]
 		{ new Feature("AC","yes",yn),
-		  new Feature("ABS","yes",yn)
+		  new Feature("ABS","yes",yn),
 		  new Feature("CC", "yes",yn)
 		};
 		
