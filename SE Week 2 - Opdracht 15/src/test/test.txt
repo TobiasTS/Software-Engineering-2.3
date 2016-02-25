@@ -1,0 +1,4 @@
+Features;8
+Items;256
+Item1;1;1;1;1;1;1;1;1;Royal de luxe
+Item1;1;1;1;1;1;1;0;1;Cheap
