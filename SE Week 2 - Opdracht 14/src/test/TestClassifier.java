@@ -18,18 +18,36 @@ public class TestClassifier extends TestCase {
 		root.addChild("yes",n1);
 		root.addChild("no",n2);
 		
+		Node n3=new Node("CC");
+		Node n4=new Node("CC");
+		Node n5=new Node("CC");
+		Node n6=new Node("CC");
+		n1.addChild("yes", n3);
+		n1.addChild("no", n4);
+		n2.addChild("yes", n5);
+		n2.addChild("no", n6);
+		
 		// leaves
 		Node l1 = new Node("high");
-		Node l2 = new Node("medium");
+		Node l2 = new Node("high");
 		Node l3 = new Node("medium");
-		Node l4 = new Node("low");
-
-		n1.addChild("yes",l1);
-		n1.addChild("no",l2);
-
-		n2.addChild("yes",l3);
-		n2.addChild("no",l4);
+		Node l4 = new Node("medium");
+		Node l5 = new Node("medium");
+		Node l6 = new Node("medium");
+		Node l7 = new Node("low");
+		Node l8 = new Node("low");
 		
+		n3.addChild("yes",l1);
+		n3.addChild("no",l2);
+
+		n4.addChild("yes",l3);
+		n4.addChild("no",l4);
+		
+		n5.addChild("yes",l5);
+		n5.addChild("no",l6);
+		
+		n6.addChild("yes",l7);
+		n6.addChild("no",l8);
 		return new DecisionTree(root);
     }
 	public void testCategory(){
@@ -41,7 +59,8 @@ public class TestClassifier extends TestCase {
 
 		Feature[] features = new Feature[]
 		{ new Feature("AC","yes",yn),
-		  new Feature("ABS","yes",yn)
+		  new Feature("ABS","yes",yn),
+		  new Feature("CC", "yes",yn)
 		};
 		
 		Item item = new Item("car",features);
@@ -57,5 +76,9 @@ public class TestClassifier extends TestCase {
 		item.setFeatureValue("ABS","no");
 		category = dt.assignCategory(item);
 		assertEquals("low",category);
+		
+		item.setFeatureValue("CC","no");
+		category = dt.assignCategory(item);
+		assertEquals("medium",category);
 	}
 }
