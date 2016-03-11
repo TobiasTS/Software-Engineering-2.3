@@ -37,7 +37,7 @@ public class TreeClass {
 		usCustomerNode.add(regionalCustomersNode);
 
 		// level-order traversing
-		System.out.println("Lever-order traversing:");
+		System.out.println("Level-order traversing:");
 		traverseEnumeration(root.breadthFirstEnumeration());
 		System.out.println("");
 		

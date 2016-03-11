@@ -30,6 +30,8 @@ public class TestDecisionTreeFromText extends TestCase {
 		  new Feature("Metalic","0",yn)
 		};
 		
+		System.out.println(dt.toString());
+		
 		Item item = new Item("car", features);
 		String category = dt.assignCategory(item);
 		assertEquals("Super saver",category);

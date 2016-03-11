@@ -18,17 +18,21 @@ private Scanner    reader = new Scanner(System.in);
          if (solution.fits(candidates.get(index)))
          {
              solution.record(candidates.remove(index)); //move candidate to solution
-       
-        	 if (solution.complete())
-             {
-                 solution.show();
-                 System.exit(0);
+             if(solution.isCorrect()) {
+            	 if (solution.complete())
+                 {
+                     solution.show();
+                     System.exit(0);
+                 }
+            	 else
+                 {
+                     solve();
+                 }
              }
-        	 else
+             else
              {
                  solve();
              }
-
              candidates.add(index, solution.eraseRecording()); //move candidate to candidates
   
            }

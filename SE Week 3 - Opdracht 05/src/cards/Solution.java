@@ -22,7 +22,9 @@ public class Solution extends Stack<Candidate>
 	//  indices of adjacent cards in the solution.
 	//                 0   1  2   3   4    5     6    7   
 	int [] [] check = {{},{},{1},{0},{2},{3,4},{5,6},{7}};
-
+	
+	int [] [] check2 = {{-1,-1},{-1,-1},{1,-1},{0,-1},{2,-1},{3,4},{5,6},{7,-1}}; 	
+	
 	public Solution(){
 	}
 
@@ -135,7 +137,41 @@ public class Solution extends Stack<Candidate>
 	 */
 	// uses methods bordersCard and mustBeAdjacent to
 	public boolean isCorrect() {
-        //TODO		
+        //TODO
+		System.out.println(toString());
+		int index = this.size();
+		
+		for(int i = 0; i < index; i++) {
+			int tempInt1 = check2[i][0];
+			int tempInt2 = check2[i][1];
+			System.out.println("Loop number: " + i);
+			System.out.println("temp1 = " + tempInt1);
+			System.out.println("temp2 = " + tempInt2);
+
+			if(tempInt1 != -1 && board[row[tempInt1]][column[tempInt1]].getCardChar() != 'J') {
+				if(!bordersCard(row[tempInt1],column[tempInt1],mustBeAdjacentTo(board[row[tempInt1]][column[tempInt1]].getCardChar()))) {
+					System.out.println(board[row[tempInt1]][column[tempInt1]] + " must be adjacent to " + mustBeAdjacentTo(board[row[tempInt1]][column[tempInt1]].getCardChar()));
+					System.out.println("false");
+					return false;
+				}
+				else {
+					System.out.println(board[row[tempInt1]][column[tempInt1]] + " must be adjacent to " + mustBeAdjacentTo(board[row[tempInt1]][column[tempInt1]].getCardChar()));
+					System.out.println("true");
+				}
+			}
+			if(tempInt2 != -1 && board[row[tempInt2]][column[tempInt2]].getCardChar() != 'J') {
+				if(!bordersCard(row[tempInt2],column[tempInt2],mustBeAdjacentTo(board[row[tempInt2]][column[tempInt2]].getCardChar()))) {
+					System.out.println(board[row[tempInt2]][column[tempInt2]] + " must be adjacent to " + mustBeAdjacentTo(board[row[tempInt2]][column[tempInt2]].getCardChar()));
+					System.out.println("false");
+					return false;
+				}
+				else {
+					System.out.println(board[row[tempInt2]][column[tempInt2]] + " must be adjacent to " + mustBeAdjacentTo(board[row[tempInt2]][column[tempInt2]].getCardChar()));
+					System.out.println("true");
+				}
+			}
+		}
+		
         return true;
      }     
             
